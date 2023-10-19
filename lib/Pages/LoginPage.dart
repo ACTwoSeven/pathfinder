@@ -19,12 +19,39 @@ class _LoginPageState extends State<LoginPage> {
   String userId ='';
 
 
-  void signUserIn() async{
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: correo.text,
-        password: pass.text);
+  void signUserIn() async {
+    //Comprobar campos vacíos
+    if (correo.text.isNotEmpty && pass.text.isNotEmpty) {
+      //Intente iniciar sesión
+      try {
+        //Circulo de progreso
+        showDialog(
+            context: context,
+            builder: (context){
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            });
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: correo.text,
+          password: pass.text,
+        );
+        //Cierra el circulo de progreso
+        Navigator.pop(context);
+        //Mostrar errores
+      } on FirebaseAuthException catch (e) {
+        if(e.code == 'INVALID_LOGIN_CREDENTIALS'){
+          _mostrarAlerta(context, "Credenciales inválidas.", "Alguna de las credenciales ingresadas son incorrectas.");
+        }
+      }
+    } else {
+      // Alerta de campo vacío
+      print("Están vacíos");
+      _mostrarAlerta(context, "Hay un campo vacío.", "Rellena todos los campos requeridos para iniciar sesión!");
+    }
   }
 
+  //Sistema de alertas en la pantalla
   void _mostrarAlerta(BuildContext context, String titulo, String mensaje) {
     showDialog(
       context: context,
@@ -45,6 +72,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  //Función detectar cambios de mostrar u ocultar contraseña
   void _toggleMostrarContrasena(bool value) {
     setState(() {
       _mostrarContrasena = value;
@@ -125,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: ElevatedButton(
                   onPressed: () {
                     print('Ingresando...');
-                    signUserIn;
+                    signUserIn();
                   },
                   child: Text('Ingresar'),
                 ),

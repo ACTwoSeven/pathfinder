@@ -20,6 +20,13 @@ class _WelcomePageState extends State<WelcomePage> {
     "welcome-two.png",
     "welcome-three.png",
   ];
+
+  List texts = [
+    "Hola",
+    "Como",
+    "Estoy",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +58,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       Container(
                         width: 250,
                         child:  AppText(
-                          text: "Esta aplicación te dara información sobre las diferentes rutas de servicio publico, con ayuda de nuestros amigos los dateros.",
+                          text: texts[index],
                           color: AppColors.textColor2,
                           size: 14,
                         ),

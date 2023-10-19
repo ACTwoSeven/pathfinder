@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pathfinder/Pages/LoginPage.dart';
 import 'HomePage.dart';
+import 'LoginOrRegisterPage.dart';
 
 class AuthPage extends StatelessWidget{
   const AuthPage({super.key});
@@ -17,7 +18,7 @@ class AuthPage extends StatelessWidget{
             return HomePage();
           }
           else{
-            return LoginPage();
+            return LoginOrRegisterPage();
           }
         },
       ),

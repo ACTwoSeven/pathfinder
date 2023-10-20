@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '636132875980',
     projectId: 'pathfinder-203d0',
     authDomain: 'pathfinder-203d0.firebaseapp.com',
-    databaseURL: 'https://pathfinder-203d0-default-rtdb.firebaseio.com/',
+    databaseURL: 'https://pathfinder-203d0-default-rtdb.firebaseio.com',
     storageBucket: 'pathfinder-203d0.appspot.com',
     measurementId: 'G-DRV1L2GXSH',
   );
@@ -65,7 +65,7 @@ class DefaultFirebaseOptions {
     appId: '1:636132875980:android:90877c609f441821976c69',
     messagingSenderId: '636132875980',
     projectId: 'pathfinder-203d0',
+    databaseURL: 'https://pathfinder-203d0-default-rtdb.firebaseio.com',
     storageBucket: 'pathfinder-203d0.appspot.com',
-    databaseURL: 'https://pathfinder-203d0-default-rtdb.firebaseio.com/',
   );
 }

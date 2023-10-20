@@ -142,13 +142,13 @@ class _UpdateRecordState extends State<UpdateRecord> {
 
   directupdate() {
     if (url != null) {
-      Map<String, String> Contact = {
+      Map<String, String> ruta = {
         'name': contactName.text,
         'number': contactNumber.text,
         'url': url,
       };
 
-      db_Ref!.child(widget.Contact_Key).update(Contact).whenComplete(() {
+      db_Ref!.child(widget.Contact_Key).update(ruta).whenComplete(() {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

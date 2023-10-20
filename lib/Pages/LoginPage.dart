@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pathfinder/Pages/HomePage.dart';
+
+import 'auth_page.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
@@ -21,6 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _mostrarContrasena = false;
   String userName = '';
   String userId ='';
+  var band=false;
 
 
   void signUserIn() async {
@@ -36,12 +40,14 @@ class _LoginPageState extends State<LoginPage> {
                 child: CircularProgressIndicator(),
               );
             });
+
         await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: correo.text,
           password: pass.text,
         );
         //Cierra el circulo de progreso
         Navigator.pop(context);
+        band=true;
         //Mostrar errores
       } on FirebaseAuthException catch (e) {
         if(e.code == 'INVALID_LOGIN_CREDENTIALS'){
@@ -86,6 +92,15 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Login',
+          style: TextStyle(
+            fontSize: 30,
+          ),
+        ),
+        backgroundColor: Colors.indigo[900],
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -99,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Container(
                     width: 100,
                     height: 100,
-                    child: Image.asset('image/user.png'),
+                    //child: Image.asset('image/user.png'),
                   ),
                 ),
               ),
@@ -159,6 +174,9 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       print('Ingresando...');
                       signUserIn();
+                      if(band){
+                        Navigator.push(context,MaterialPageRoute(builder: (_)=> HomePage()));
+                      }
                     },
                     child: Text('Ingresar'),
                   ),
@@ -206,7 +224,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                      'No estás registrado?',
+                      '¿No estás registrado?',
                       style: TextStyle(color: Colors.grey[700]),
                   ),
                   const SizedBox(width: 4,),

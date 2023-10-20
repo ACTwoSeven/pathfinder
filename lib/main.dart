@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:pathfinder/Pages/WelcomePage.dart';
 import 'package:pathfinder/Pages/auth_page.dart';
 import 'Pages/RegisterPage.dart';
 import 'Pages/LoginPage.dart';
@@ -21,6 +22,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home : AuthPage());
+    return MaterialApp(debugShowCheckedModeBanner: false, home : WelcomeScreen());
   }
 }

@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 //import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:pathfinder/Pages/HomePage.dart';
 //import 'package:image_picker/image_picker.dart';
 
 //import 'main.dart';
@@ -15,13 +17,16 @@ class ccreateState extends State<ccreate> {
   TextEditingController name = TextEditingController();
   TextEditingController number = TextEditingController();
   File? file;
+  final _formKey = GlobalKey<FormState>();
+  //final _database = FirebaseDatabase.instance.ref();
+  //final user = FirebaseAuth.instance.currentUser!;
   //ImagePicker image = ImagePicker();
   var url;
   DatabaseReference? dbRef;
   @override
   void initState() {
     super.initState();
-    dbRef = FirebaseDatabase.instance.ref().child('contacts');
+    dbRef = FirebaseDatabase.instance.ref().child('User');
   }
 
   @override
@@ -48,7 +53,7 @@ class ccreateState extends State<ccreate> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                hintText: 'Name',
+                hintText: 'Nombre de la ruta',
               ),
             ),
             SizedBox(
@@ -60,7 +65,7 @@ class ccreateState extends State<ccreate> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                hintText: 'Number',
+                hintText: 'Código de la ruta',
               ),
               maxLength: 10,
             ),
@@ -70,10 +75,10 @@ class ccreateState extends State<ccreate> {
             MaterialButton(
               height: 40,
               onPressed: () {
-
+                  uploadFile();
               },
               child: Text(
-                "Add",
+                "Añadir ruta",
                 style: TextStyle(
                   color: Color.fromARGB(255, 255, 255, 255),
                   fontSize: 20,
@@ -86,6 +91,32 @@ class ccreateState extends State<ccreate> {
       ),
     );
   }
+  uploadFile() async {
+    try {
 
+      url = 'await snapshot.ref.getDownloadURL()';
+      setState(() {
+        url = url;
+      });
+      if (url != null) {
+        Map<String, String> ruta = {
+          'name': name.text,
+          'number': number.text,
+          'url': url,
+        };
 
+        dbRef!.push().set(ruta).whenComplete(() {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => HomePage(),
+            ),
+          );
+        });
+      }
+    } on Exception catch (e) {
+      print(e);
+    }
+  }
 }
+

@@ -14,13 +14,39 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _formKey = GlobalKey<FormState>();
+  final _database = FirebaseDatabase.instance.reference();
+
+  String? _workplace;
+  List<String>? _routes;
+
   void signUserOut(){
     FirebaseAuth.instance.signOut();
   }
+  void _saveData(ruta) {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      // Save data to Firebase Realtime Database
+      final user = FirebaseAuth.instance.currentUser!;
+      final data = {
+        'workplace': _workplace,
+        'routes': ruta,
+        'timestamp': DateTime.now().millisecondsSinceEpoch,
+      };
+      _database.child(user.email!).push().set(data);
+
+      // Clear form
+      setState(() {
+        _workplace = null;
+        _routes = null;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     DatabaseReference db_Ref =
-    FirebaseDatabase.instance.ref().child('contacts');
+    FirebaseDatabase.instance.ref().child('User');
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.indigo[900],
@@ -57,19 +83,19 @@ class _HomePageState extends State<HomePage> {
         query: db_Ref,
         shrinkWrap: true,
         itemBuilder: (context, snapshot, animation, index) {
-          Map Contact = snapshot.value as Map;
-          Contact['key'] = snapshot.key;
+          Map rutas = snapshot.value as Map;
+          rutas['key'] = snapshot.key;
           return GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (_) => UpdateRecord(
-                    Contact_Key: Contact['key'],
+                    Contact_Key: rutas['key'],
                   ),
                 ),
               );
-              // print(Contact['key']);
+              print(rutas['key']);
             },
             child: Container(
               child: Padding(
@@ -84,27 +110,22 @@ class _HomePageState extends State<HomePage> {
                   tileColor: Colors.indigo[100],
                   trailing: IconButton(
                     icon: Icon(
-                      Icons.delete,
-                      color: Colors.red[900],
+                      Icons.add,
+                      color: Colors.blue[900],
                     ),
                     onPressed: () {
-                      db_Ref.child(Contact['key']).remove();
+                      _saveData(rutas['key']);
                     },
                   ),
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      Contact['url'],
-                    ),
-                  ),
                   title: Text(
-                    Contact['name'],
+                    rutas['name'],
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   subtitle: Text(
-                    Contact['number'],
+                    rutas['number'],
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,

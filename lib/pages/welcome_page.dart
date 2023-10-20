@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pathfinder/Pages/RegisterPage.dart';
+import 'package:pathfinder/Pages/auth_page.dart';
+import 'package:pathfinder/pages/main_menu.dart';
 import 'package:pathfinder/widgets/app_large_text.dart';
 
 import '../misc/colors.dart';
 import '../widgets/app_text.dart';
-import '../widgets/responsive_button.dart';
 
 
 class WelcomePage extends StatefulWidget {
@@ -25,6 +27,12 @@ class _WelcomePageState extends State<WelcomePage> {
     "Hola",
     "Como",
     "Estoy",
+  ];
+
+  List pages = [
+    AuthPage(),
+    RegisterPage(),
+    MainMenu(),
   ];
 
   @override
@@ -64,7 +72,16 @@ class _WelcomePageState extends State<WelcomePage> {
                         ),
                       ),
                       SizedBox(height: 40,),
-                      ResponsiveButton(width: 120,)
+
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => pages[index]),
+                          );
+                        //ResponsiveButton(width: 120,);
+                        },
+                      )
                     ],
                   ),
                   Column(

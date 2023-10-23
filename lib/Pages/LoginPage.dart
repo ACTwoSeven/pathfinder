@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pathfinder/Pages/HomePage.dart';
 
+import '../misc/colors.dart';
+
 import 'auth_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -94,12 +96,12 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Login',
+          'Iniciar Sesión',
           style: TextStyle(
             fontSize: 30,
           ),
         ),
-        backgroundColor: Colors.indigo[900],
+        backgroundColor: AppColors.mainColor,
       ),
       body: SafeArea(
         child: Center(
@@ -107,30 +109,55 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 50,),
+                const SizedBox(height: 0,),
               Padding(
-                padding: EdgeInsets.all(30),
+                padding: EdgeInsets.all(0),
                 child: Center(
                   child: Container(
-                    width: 100,
-                    height: 100,
+                    width: 10,
+                    height: 10,
                     //child: Image.asset('image/user.png'),
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: TextField(
-                  controller: correo,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    labelText: 'Correo',
-                    hintText: 'Digite su correo electronico',
-                    prefixIcon: Icon(Icons.email),
-                  ),
+
+                Stack(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(20),
+                      child: TextField(
+                        controller: correo,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              color: AppColors.mainColor,
+                            ),
+                          ),
+                          labelText: 'Correo',
+                          labelStyle: TextStyle(
+                            color: AppColors.mainColor,
+                          ),
+                          hintText: 'Digite su correo electrónico',
+                          prefixIcon: Icon(Icons.email),
+                          prefixIconColor: AppColors.mainColor,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: -5,
+                      right: -5,
+                      child: Image.asset(
+                        'img/login-one.png', // Ruta o nombre de la imagen deseada
+                        width: 100, // Ancho de la imagen
+                        height: 100, // Alto de la imagen
+                      ),
+                    ),
+                  ],
                 ),
-              ),
               Padding(
                 padding: EdgeInsets.all(20),
                 child: TextField(
@@ -139,8 +166,16 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: AppColors.mainColor,
+                        )
+                    ),
                     labelText: 'Contraseña',
+                    labelStyle: TextStyle(color: AppColors.mainColor),
                     prefixIcon: Icon(Icons.password),
+                    prefixIconColor: AppColors.mainColor,
                     suffixIcon: IconButton(
                       icon: Icon(
                         _mostrarContrasena
@@ -151,6 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                         _toggleMostrarContrasena(!_mostrarContrasena);
                       },
                     ),
+                    suffixIconColor: AppColors.mainColor,
                     hintText: 'Digite su contraseña',
                   ),
                 ),
@@ -168,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20, top: 50, right: 10),
+                padding: const EdgeInsets.only(left: 20, top: 30, right: 10),
                 child: Center(
                   child: ElevatedButton(
                     onPressed: () {
@@ -178,11 +214,15 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(context,MaterialPageRoute(builder: (_)=> HomePage()));
                       }
                     },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(AppColors.mainColor),
+                      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                    ),
                     child: Text('Ingresar'),
                   ),
                 ),
               ),
-              const SizedBox(height: 50,),
+              const SizedBox(height: 30,),
               //Continua con
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -206,7 +246,7 @@ class _LoginPageState extends State<LoginPage> {
                 ],),
               ),
 
-              const SizedBox(height: 50,),
+              const SizedBox(height: 30,),
               //Google sign in button
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -217,7 +257,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(),
               ],),
 
-              const SizedBox(height: 50,),
+              const SizedBox(height: 20,),
 
               //Registrate
               Row(
@@ -230,15 +270,16 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(width: 4,),
                   GestureDetector(
                     onTap: widget.onTap,
-                    child: const Text(
+                    child: Text(
                       'Registrate!',
                       style: TextStyle(
-                        color: Colors.blue, fontWeight: FontWeight.bold
+                        color: AppColors.mainColor, fontWeight: FontWeight.bold,
                       ),
                     ),
                   )
                 ],
-              )
+                ),
+                const SizedBox(height: 20,),
             ]
             ),
           ),

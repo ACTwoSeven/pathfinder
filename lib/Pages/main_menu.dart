@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:pathfinder/Pages/LoginOrRegisterPage.dart';
 import 'package:pathfinder/Pages/RegisterPage.dart';
 import 'package:pathfinder/Pages/auth_page.dart';
 
@@ -66,45 +67,55 @@ class MainMenu extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 40),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const AuthPage()),
-                          );
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(AppColors.mainColor),
-                          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                      const SizedBox(height: 40,),
+                      Container(
+                        width: 120,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const AuthPage()),
+                            );
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(AppColors.mainColor),
+                            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                          ),
+                          child: Text('Iniciar Sesión'),
                         ),
-                        child: Text('Iniciar Sesión'),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const RegisterPage()),
-                          );
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(AppColors.mainColor),
-                          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                         ),
-                        child: Text('Registrarse'),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Acción del botón para visitantes
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(AppColors.mainColor),
-                          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                      Container(
+                        width: 120,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const LoginOrRegisterPage()),
+                            );
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(AppColors.mainColor),
+                            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                          ),
+                          child: Text('Registrarse'),
                         ),
-                        child: Text("Visitantes"),
                       ),
-                    ],
-                  ),
+
+                        Container(
+                          width: 120,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Acción del botón para visitantes
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(AppColors.mainColor),
+                              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                            ),
+                            child: Text("Visitantes"),
+                            ),
+                          ),
+                          ],
+                        ),
                   Column(
                     children: List.generate(3, (indexDots) {
                       return Container(

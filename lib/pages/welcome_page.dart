@@ -31,7 +31,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
   List pages = [
     AuthPage(),
-    RegisterPage(),
+    AuthPage(),
     MainMenu(),
   ];
 

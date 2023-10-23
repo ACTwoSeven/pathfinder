@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pathfinder/Pages/auth_page.dart';
+import '../misc/colors.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
@@ -101,7 +102,7 @@ class _RegisterPageState extends State<RegisterPage> {
             fontSize: 30,
           ),
         ),
-        backgroundColor: Colors.indigo[900],
+        backgroundColor: AppColors.mainColor,
       ),
       body: SafeArea(
         child: Center(
@@ -109,14 +110,14 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 25,),
+                  const SizedBox(height: 10,),
                   Padding(
-                    padding: EdgeInsets.all(30),
+                    padding: EdgeInsets.all(10),
                     child: Center(
                       child: Container(
-                        width: 100,
-                        height: 100,
-                        child: Image.asset('image/user.png'),
+                        width: 200,
+                        height: 200,
+                        child: Image.asset('img/register-one.png'),
                       ),
                     ),
                   ),
@@ -134,9 +135,17 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)),
+                        focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            color: AppColors.mainColor,
+                          )
+                      ),
                         labelText: 'Correo',
+                        labelStyle: TextStyle(color: AppColors.mainColor),
                         hintText: 'Digite su correo electronico',
                         prefixIcon: Icon(Icons.email),
+                        prefixIconColor: AppColors.mainColor,
                       ),
                     ),
                   ),
@@ -149,8 +158,16 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              color: AppColors.mainColor,
+                            )
+                        ),
                         labelText: 'Contraseña',
+                        labelStyle: TextStyle(color: AppColors.mainColor),
                         prefixIcon: Icon(Icons.password),
+                        prefixIconColor: AppColors.mainColor,
                         suffixIcon: IconButton(
                           icon: Icon(
                             _mostrarContrasena
@@ -161,6 +178,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             _toggleMostrarContrasena(!_mostrarContrasena);
                           },
                         ),
+                        suffixIconColor: AppColors.mainColor,
                         hintText: 'Digite su contraseña',
                       ),
                     ),
@@ -174,8 +192,16 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              color: AppColors.mainColor,
+                            )
+                        ),
                         labelText: 'Confirma la contraseña',
+                        labelStyle: TextStyle(color: AppColors.mainColor),
                         prefixIcon: Icon(Icons.password),
+                        prefixIconColor: AppColors.mainColor,
                         suffixIcon: IconButton(
                           icon: Icon(
                             _mostrarContrasena
@@ -186,12 +212,13 @@ class _RegisterPageState extends State<RegisterPage> {
                             _toggleMostrarContrasena(!_mostrarContrasena);
                           },
                         ),
+                        suffixIconColor: AppColors.mainColor,
                         hintText: 'Digite su contraseña',
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 20, top: 50, right: 10),
+                    padding: const EdgeInsets.only(left: 20, top: 30, right: 10),
                     child: Center(
                       child: ElevatedButton(
                         onPressed: () {
@@ -199,11 +226,15 @@ class _RegisterPageState extends State<RegisterPage> {
                           signUserUp();
                           Navigator.push(context,MaterialPageRoute(builder: (_)=> AuthPage()));
                         },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(AppColors.mainColor),
+                          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                        ),
                         child: Text('Registrate'),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 25,),
+                  const SizedBox(height: 10,),
                   //Continua con
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -251,10 +282,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       const SizedBox(width: 4,),
                       GestureDetector(
                         onTap: widget.onTap,
-                        child: const Text(
+                        child: Text(
                           'Inicia sesión aquí!',
                           style: TextStyle(
-                              color: Colors.blue, fontWeight: FontWeight.bold
+                              color: AppColors.mainColor, fontWeight: FontWeight.bold,
                           ),
                         ),
                       )

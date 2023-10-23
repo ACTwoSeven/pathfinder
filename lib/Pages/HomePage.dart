@@ -27,13 +27,13 @@ class _HomePageState extends State<HomePage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       // Save data to Firebase Realtime Database
-      final user = FirebaseAuth.instance.currentUser!;
+      final dataUser = FirebaseAuth.instance.currentUser!;
       final data = {
         'workplace': _workplace,
         'routes': ruta,
         'timestamp': DateTime.now().millisecondsSinceEpoch,
       };
-      _database.child(user.email!).push().set(data);
+      _database.child(dataUser.email!).push().set(data);
 
       // Clear form
       setState(() {
@@ -83,19 +83,19 @@ class _HomePageState extends State<HomePage> {
         query: db_Ref,
         shrinkWrap: true,
         itemBuilder: (context, snapshot, animation, index) {
-          Map rutas = snapshot.value as Map;
-          rutas['key'] = snapshot.key;
+          Map User = snapshot.value as Map;
+          User['key'] = snapshot.key;
           return GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (_) => UpdateRecord(
-                    Contact_Key: rutas['key'],
+                    Contact_Key: User['key'],
                   ),
                 ),
               );
-              print(rutas['key']);
+              print(User['key']);
             },
             child: Container(
               child: Padding(
@@ -114,20 +114,20 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.blue[900],
                     ),
                     onPressed: () {
-                      _saveData(rutas['key']);
+                      _saveData(User['key']);
                     },
                   ),
                   title: Text(
-                    rutas['name'],
+                    User['name'],
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   subtitle: Text(
-                    rutas['number'],
+                    'Última hora registrada:'+User['hora'],
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

@@ -103,6 +103,7 @@ class ccreateState extends State<ccreate> {
           'name': name.text,
           'number': number.text,
           'url': url,
+          'hora': 'N/A'
         };
 
         dbRef!.push().set(ruta).whenComplete(() {

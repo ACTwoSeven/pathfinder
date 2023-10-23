@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 //import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -15,31 +16,34 @@ class UpdateRecord extends StatefulWidget {
   @override
   State<UpdateRecord> createState() => _UpdateRecordState();
 }
-
 class _UpdateRecordState extends State<UpdateRecord> {
   TextEditingController contactName = new TextEditingController();
   TextEditingController contactNumber = new TextEditingController();
+  TextEditingController placaBus = new TextEditingController();
   var url;
   var url1;
   File? file;
+  //ImagePicker image = ImagePicker();
   DatabaseReference? db_Ref;
+  DatabaseReference? db_Ref1;
 
   @override
   void initState() {
     super.initState();
-    db_Ref = FirebaseDatabase.instance.ref().child('rutas');
+    db_Ref = FirebaseDatabase.instance.ref().child('User');
+    db_Ref1 = FirebaseDatabase.instance.ref().child('User/'+widget.Contact_Key+'/Buses');
     Contactt_data();
   }
 
   void Contactt_data() async {
     DataSnapshot snapshot = await db_Ref!.child(widget.Contact_Key).get();
 
-    Map Contact = snapshot.value as Map;
+    Map User = snapshot.value as Map;
 
     setState(() {
-      contactName.text = Contact['name'];
-      contactNumber.text = Contact['number'];
-      url = Contact['url'];
+      contactName.text = User['name'];
+      contactNumber.text = User['number'];
+      url = 'abc';
     });
   }
 
@@ -109,11 +113,22 @@ class _UpdateRecordState extends State<UpdateRecord> {
             SizedBox(
               height: 20,
             ),
+            TextFormField(
+              controller: placaBus,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Placa de bus',
+              ),
+              maxLength: 10,
+            ),
+            SizedBox(
+              height: 20,
+            ),
             MaterialButton(
               height: 40,
               onPressed: () {
                 // getImage();
-
                 if (file != null) {
                   uploadFile();
                 } else {
@@ -137,25 +152,53 @@ class _UpdateRecordState extends State<UpdateRecord> {
 
 
   uploadFile() async {
-
+    try {
+      url1 = 'xxxx';
+      setState(() {
+        url1 = url1;
+      });
+      if (contactName.text != null) {
+        Map<String, String> User = {
+          'name': contactName.text,
+          'number': contactNumber.text,
+          'url': url1,
+        };
+        db_Ref1!.push().set(User).whenComplete(() {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => HomePage(),
+            ),
+          );
+        });
+      }
+    } on Exception catch (e) {
+      print(e);
+    }
   }
 
   directupdate() {
     if (url != null) {
-      Map<String, String> ruta = {
+      Map<String, String> Update = {
         'name': contactName.text,
         'number': contactNumber.text,
         'url': url,
+        'hora': DateTime.now().hour.toString()+':'+DateTime.now().minute.toString(),
       };
-
-      db_Ref!.child(widget.Contact_Key).update(ruta).whenComplete(() {
+      Map<String, String> bus = {
+        'placa': placaBus.text,
+        'hora': DateTime.now().hour.toString()+':'+DateTime.now().minute.toString(),
+        'ruta': contactNumber.text,
+      };
+      db_Ref!.child(widget.Contact_Key).update(Update).whenComplete((){
+          db_Ref1!.push().set(bus).whenComplete(() {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (_) => HomePage(),
           ),
         );
-      });
+      });});
     }
   }
 }

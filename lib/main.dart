@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pathfinder/Pages/WelcomePage.dart';
-import 'package:pathfinder/Pages/auth_page.dart';
-import 'Pages/RegisterPage.dart';
-import 'Pages/LoginPage.dart';
 import 'firebase/firebase_options.dart';
 
 

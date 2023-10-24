@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pathfinder/Pages/HomePage.dart';
 
-import 'auth_page.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
@@ -20,7 +18,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final correo = TextEditingController();
   final pass = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _mostrarContrasena = false;
   String userName = '';
   String userId ='';

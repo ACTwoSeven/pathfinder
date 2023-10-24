@@ -1,45 +1,39 @@
-import 'dart:io';
-
 import 'package:firebase_database/firebase_database.dart';
-//import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:pathfinder/Pages/HomePage.dart';
-//import 'package:image_picker/image_picker.dart';
-
-//import 'main.dart';
+import 'package:pathfinder/Pages/RoutesPage.dart';
 
 class UpdateRecord extends StatefulWidget {
   String Contact_Key;
-  UpdateRecord({required this.Contact_Key});
+  String Rutas_Key;
+
+  UpdateRecord({super.key, required this.Contact_Key,required this.Rutas_Key});
 
   @override
   State<UpdateRecord> createState() => _UpdateRecordState();
 }
-
 class _UpdateRecordState extends State<UpdateRecord> {
   TextEditingController contactName = new TextEditingController();
   TextEditingController contactNumber = new TextEditingController();
-  var url;
-  var url1;
-  File? file;
+  TextEditingController placaBus = new TextEditingController();
+  //ImagePicker image = ImagePicker();
   DatabaseReference? db_Ref;
+  DatabaseReference? db_Ref1;
 
   @override
   void initState() {
     super.initState();
-    db_Ref = FirebaseDatabase.instance.ref().child('rutas');
+    db_Ref = FirebaseDatabase.instance.ref().child('User/'+widget.Contact_Key+'/rutas');
+    db_Ref1 = FirebaseDatabase.instance.ref().child('User/'+widget.Contact_Key+'/rutas/${widget.Rutas_Key}/buses');
     Contactt_data();
   }
 
   void Contactt_data() async {
-    DataSnapshot snapshot = await db_Ref!.child(widget.Contact_Key).get();
-
-    Map Contact = snapshot.value as Map;
+    DataSnapshot snapshot = await db_Ref!.child(widget.Rutas_Key).get();
+    Map User = snapshot.value as Map;
 
     setState(() {
-      contactName.text = Contact['name'];
-      contactNumber.text = Contact['number'];
-      url = Contact['url'];
+      contactName.text = User['name'];
+      contactNumber.text = User['number'];
     });
   }
 
@@ -53,35 +47,6 @@ class _UpdateRecordState extends State<UpdateRecord> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Center(
-              child: Container(
-                height: 200,
-                width: 200,
-                child: url == null
-                    ? MaterialButton(
-                  height: 100,
-                  child: Image.file(
-                    file!,
-                    fit: BoxFit.fill,
-                  ),
-                  onPressed: () {
-                    //getImage();
-                  },
-                )
-                    : MaterialButton(
-                  height: 100,
-                  child: CircleAvatar(
-                    maxRadius: 100,
-                    backgroundImage: NetworkImage(
-                      url,
-                    ),
-                  ),
-                  onPressed: () {
-                    //getImage();
-                  },
-                ),
-              ),
-            ),
             SizedBox(
               height: 10,
             ),
@@ -109,16 +74,22 @@ class _UpdateRecordState extends State<UpdateRecord> {
             SizedBox(
               height: 20,
             ),
+            TextFormField(
+              controller: placaBus,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Placa de bus',
+              ),
+              maxLength: 10,
+            ),
+            SizedBox(
+              height: 20,
+            ),
             MaterialButton(
               height: 40,
               onPressed: () {
-                // getImage();
-
-                if (file != null) {
-                  uploadFile();
-                } else {
                   directupdate();
-                }
               },
               child: Text(
                 "Update",
@@ -135,27 +106,40 @@ class _UpdateRecordState extends State<UpdateRecord> {
     );
   }
 
-
-  uploadFile() async {
-
-  }
-
   directupdate() {
-    if (url != null) {
-      Map<String, String> ruta = {
+    var hora;
+    if(DateTime.now().hour>12)
+    {
+      if(DateTime.now().minute<10)
+      {
+        hora='${(DateTime.now().hour-12).toString()}:0${DateTime.now().minute} PM';
+      }else{
+        hora='${(DateTime.now().hour-12).toString()}:${DateTime.now().minute} PM';
+      }
+    }else if(DateTime.now().minute<10){
+      hora='${(DateTime.now().hour).toString()}:0${DateTime.now().minute} AM';
+    }else{
+      hora='${(DateTime.now().hour).toString()}:${DateTime.now().minute} AM';
+    }
+
+      Map<String, String> Update = {
         'name': contactName.text,
         'number': contactNumber.text,
-        'url': url,
+        'hora': hora,
       };
-
-      db_Ref!.child(widget.Contact_Key).update(ruta).whenComplete(() {
+      Map<String, String> bus = {
+        'placa': placaBus.text,
+        'hora': hora,
+        'ruta': contactNumber.text,
+      };
+      db_Ref!.child(widget.Rutas_Key).update(Update).whenComplete((){
+          db_Ref1!.push().set(bus).whenComplete(() {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => HomePage(),
+            builder: (_) => RoutesPage(Contact_Key: widget.Contact_Key,),
           ),
         );
-      });
+      });});
     }
-  }
 }

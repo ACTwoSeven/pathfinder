@@ -1,25 +1,27 @@
 import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:pathfinder/Pages/RoutesPage.dart';
+import 'HomePage.dart';
 
-class ccreate extends StatefulWidget {
-  String Contact_Key;
-  ccreate({super.key, required this.Contact_Key});
+class ccreateWork extends StatefulWidget {
+  const ccreateWork({super.key});
+
   @override
-  State<ccreate> createState() => ccreateState();
+  State<ccreateWork> createState() => ccreateWorkState();
 }
 
-class ccreateState extends State<ccreate> {
+class ccreateWorkState extends State<ccreateWork> {
   TextEditingController name = TextEditingController();
   TextEditingController number = TextEditingController();
   File? file;
-  var url;
+  //final _database = FirebaseDatabase.instance.ref();
+  //final user = FirebaseAuth.instance.currentUser!;
+  //ImagePicker image = ImagePicker();
   DatabaseReference? dbRef;
   @override
   void initState() {
     super.initState();
-    dbRef = FirebaseDatabase.instance.ref().child('User/${widget.Contact_Key}/rutas');
+    dbRef = FirebaseDatabase.instance.ref().child('User');
   }
 
   @override
@@ -27,7 +29,7 @@ class ccreateState extends State<ccreate> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Añadir rutas',
+          'Añadir puesto de trabajo',
           style: TextStyle(
             fontSize: 30,
           ),
@@ -38,15 +40,15 @@ class ccreateState extends State<ccreate> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             TextFormField(
               controller: name,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                hintText: 'Nombre de la ruta',
+                hintText: 'Nombre del puesto de trabajo (ej. Iglesia Cristo Rey)',
               ),
             ),
             SizedBox(
@@ -58,7 +60,7 @@ class ccreateState extends State<ccreate> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                hintText: 'Código de la ruta',
+                hintText: 'Dirección del puesto (ej. Cll 9#18-20)',
               ),
               maxLength: 10,
             ),
@@ -68,10 +70,10 @@ class ccreateState extends State<ccreate> {
             MaterialButton(
               height: 40,
               onPressed: () {
-                  uploadFile();
+                uploadFile();
               },
               child: Text(
-                "Añadir ruta",
+                "Añadir puesto",
                 style: TextStyle(
                   color: Color.fromARGB(255, 255, 255, 255),
                   fontSize: 20,
@@ -88,22 +90,18 @@ class ccreateState extends State<ccreate> {
     try {
         Map<String, String> ruta = {
           'name': name.text,
-          'number': number.text,
-          'hora': 'N/A'
+          'direccion': number.text,
         };
-
         dbRef!.push().set(ruta).whenComplete(() {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (_) => RoutesPage(Contact_Key: widget.Contact_Key,),
+              builder: (_) => HomePage(),
             ),
           );
         });
-
     } on Exception catch (e) {
       print(e);
     }
   }
 }
-

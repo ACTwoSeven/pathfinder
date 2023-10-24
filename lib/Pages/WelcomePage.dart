@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:pathfinder/Pages/HomePage.dart';
-import 'package:pathfinder/Pages/LoginOrRegisterPage.dart';
-import 'package:pathfinder/Pages/LoginPage.dart';
 import 'package:pathfinder/Pages/auth_page.dart';
 
 class WelcomeScreen extends StatelessWidget {

@@ -8,5 +8,6 @@ class AppColors{
   static final Color starColor = Color(0xFFe7bb4e);
   static final Color mainTextColor = Color(0xFFababad);
   static final buttonBackground = Color(0xFFf1f1f1);
+  static final Color subColor = Color(0xFFD7DCFF);
 }
 

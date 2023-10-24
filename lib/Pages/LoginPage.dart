@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pathfinder/Pages/HomePage.dart';
 
 import '../misc/colors.dart';
@@ -22,7 +21,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final correo = TextEditingController();
   final pass = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _mostrarContrasena = false;
   String userName = '';
   String userId ='';
@@ -35,25 +33,29 @@ class _LoginPageState extends State<LoginPage> {
       //Intente iniciar sesión
       try {
         //Circulo de progreso
-        showDialog(
-            context: context,
-            builder: (context){
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            });
+        //showDialog(
+            //context: context,
+            //builder: (context){
+              //return const Center(
+              //  child: CircularProgressIndicator(),
+              //);
+            //}
+          //  );
 
         await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: correo.text,
           password: pass.text,
         );
         //Cierra el circulo de progreso
-        Navigator.pop(context);
-        band=true;
+        //Navigator.pop(context);
+        //band=true;
         //Mostrar errores
       } on FirebaseAuthException catch (e) {
         if(e.code == 'INVALID_LOGIN_CREDENTIALS'){
           _mostrarAlerta(context, "Credenciales inválidas.", "Alguna de las credenciales ingresadas son incorrectas.");
+        }
+        else{
+          _mostrarAlerta(context, e.code, "Alguna de las credenciales ingresadas son incorrectas.");
         }
       }
     } else {
@@ -63,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  //Sistema de alertas en la pantalla
+  //Sistema de alertas en la pantallagmail
   void _mostrarAlerta(BuildContext context, String titulo, String mensaje) {
     showDialog(
       context: context,

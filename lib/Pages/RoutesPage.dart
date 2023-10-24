@@ -2,19 +2,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
-import 'package:pathfinder/Pages/RoutesPage.dart';
-import 'package:pathfinder/Pages/insertWork.dart';
+import 'package:pathfinder/Pages/update.dart';
 
 import '../misc/colors.dart';
+import 'insert.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class RoutesPage extends StatefulWidget {
+  String Contact_Key;
+  RoutesPage({required this.Contact_Key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _RoutesPageState createState() => _RoutesPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _RoutesPageState extends State<RoutesPage> {
+
 
   void signUserOut(){
     FirebaseAuth.instance.signOut();
@@ -23,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     DatabaseReference db_Ref =
-    FirebaseDatabase.instance.ref().child('User');
+    FirebaseDatabase.instance.ref().child('User/${widget.Contact_Key}/rutas');
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.mainColor,
@@ -31,7 +33,9 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => const ccreateWork(),
+              builder: (_) => ccreate(
+                Contact_Key: widget.Contact_Key,
+              ),
             ),
           );
         },
@@ -49,39 +53,38 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         title: const Text(
-          'Puestos de información',
+          'Rutas',
           style: TextStyle(
-            fontSize: 25,
+            fontSize: 30,
           ),
         ),
         backgroundColor: AppColors.mainColor,
       ),
-
       body: FirebaseAnimatedList(
         query: db_Ref,
         shrinkWrap: true,
         itemBuilder: (context, snapshot, animation, index) {
-          Map User = snapshot.value as Map;
-          User['key'] = snapshot.key;
+          Map Rutas = snapshot.value as Map;
+          Rutas['key'] = snapshot.key;
           return GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => RoutesPage(
-                    Contact_Key: User['key'],
+                  builder: (_) => UpdateRecord(
+                    Contact_Key: widget.Contact_Key, Rutas_Key: Rutas['key'],
                   ),
                 ),
               );
-              print(User['key']);
+              print(Rutas['key']);
             },
-            child: Container(
+           child: Container(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
                   shape: RoundedRectangleBorder(
                     side: const BorderSide(
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -96,16 +99,14 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                   title: Text(
-                    User['name'],
+                    Rutas['name'],
                     style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
                     ),
                   ),
-                  subtitle: Text(
-                    'Dirección: ${User['direccion']}',
-                    style: const TextStyle(
+                  subtitle: Text('Última hora registrada: '+Rutas['hora'],
+                    style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),

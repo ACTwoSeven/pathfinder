@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pathfinder/Pages/auth_page.dart';
 import '../misc/colors.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
-  const RegisterPage({super.key, required this.onTap});
+  const RegisterPage({super.key, this.onTap});
 
 
 
@@ -20,7 +19,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final correo = TextEditingController();
   final pass = TextEditingController();
   final confirmpass = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _mostrarContrasena = false;
   String userName = '';
   String userId ='';

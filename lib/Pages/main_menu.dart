@@ -1,8 +1,11 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pathfinder/Pages/LoginOrRegisterPage.dart';
+import 'package:pathfinder/Pages/LoginPage.dart';
 import 'package:pathfinder/Pages/RegisterPage.dart';
 import 'package:pathfinder/Pages/auth_page.dart';
+import 'package:pathfinder/pages/welcome_page.dart';
 
 import '../misc/colors.dart';
 
@@ -90,7 +93,7 @@ class MainMenu extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const LoginOrRegisterPage()),
+                              MaterialPageRoute(builder: (context) => const WelcomePage()),
                             );
                           },
                           style: ButtonStyle(
@@ -104,8 +107,15 @@ class MainMenu extends StatelessWidget {
                         Container(
                           width: 120,
                           child: ElevatedButton(
-                            onPressed: () {
-                              // Acción del botón para visitantes
+                            onPressed: () async {
+                              UserCredential result =
+                                  await FirebaseAuth.instance.signInAnonymously();
+                              User? user = result.user;
+                              if (user != null) {
+                                // Navigate to home screen
+                                Navigator.push(context,MaterialPageRoute(builder: (_)=> AuthPage()));
+                                print("Anonymo registrado");
+                              }
                             },
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(AppColors.mainColor),

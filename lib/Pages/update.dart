@@ -2,6 +2,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:pathfinder/Pages/RoutesPage.dart';
 
+import '../misc/colors.dart';
+
 class UpdateRecord extends StatefulWidget {
   String Contact_Key;
   String Rutas_Key;
@@ -42,17 +44,18 @@ class _UpdateRecordState extends State<UpdateRecord> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Update Record'),
+        backgroundColor: AppColors.mainColor,
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             TextFormField(
               controller: contactName,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
                 hintText: 'Name',
@@ -76,14 +79,14 @@ class _UpdateRecordState extends State<UpdateRecord> {
             ),
             TextFormField(
               controller: placaBus,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
                 hintText: 'Placa de bus',
               ),
               maxLength: 10,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             MaterialButton(
@@ -91,14 +94,14 @@ class _UpdateRecordState extends State<UpdateRecord> {
               onPressed: () {
                   directupdate();
               },
-              child: Text(
+              color: AppColors.mainColor,
+              child: const Text(
                 "Update",
                 style: TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  color: Colors.white,
                   fontSize: 20,
                 ),
               ),
-              color: Colors.indigo[900],
             ),
           ],
         ),

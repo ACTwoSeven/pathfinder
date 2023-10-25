@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import '../misc/colors.dart';
 import 'HomePage.dart';
 
 class ccreateWork extends StatefulWidget {
@@ -28,13 +29,13 @@ class ccreateWorkState extends State<ccreateWork> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Añadir puesto de trabajo',
           style: TextStyle(
             fontSize: 30,
           ),
         ),
-        backgroundColor: Colors.indigo[900],
+        backgroundColor: AppColors.mainColor,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -51,20 +52,20 @@ class ccreateWorkState extends State<ccreateWork> {
                 hintText: 'Nombre del puesto de trabajo (ej. Iglesia Cristo Rey)',
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormField(
               controller: number,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
                 hintText: 'Dirección del puesto (ej. Cll 9#18-20)',
               ),
               maxLength: 10,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             MaterialButton(
@@ -72,14 +73,14 @@ class ccreateWorkState extends State<ccreateWork> {
               onPressed: () {
                 uploadFile();
               },
-              child: Text(
+              color: AppColors.mainColor,
+              child: const Text(
                 "Añadir puesto",
                 style: TextStyle(
                   color: Color.fromARGB(255, 255, 255, 255),
                   fontSize: 20,
                 ),
               ),
-              color: Colors.indigo[900],
             ),
           ],
         ),

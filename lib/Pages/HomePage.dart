@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:pathfinder/Pages/RoutesPage.dart';
 import 'package:pathfinder/Pages/insertWork.dart';
 
+import '../misc/colors.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -24,16 +26,16 @@ class _HomePageState extends State<HomePage> {
     FirebaseDatabase.instance.ref().child('User');
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.indigo[900],
+        backgroundColor: AppColors.mainColor,
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => ccreateWork(),
+              builder: (_) => const ccreateWork(),
             ),
           );
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
         ),
       ),
@@ -43,17 +45,18 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               signUserOut();
             },
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
           ),
         ],
-        title: Text(
+        title: const Text(
           'Puestos de información',
           style: TextStyle(
             fontSize: 25,
           ),
         ),
-        backgroundColor: Colors.indigo[900],
+        backgroundColor: AppColors.mainColor,
       ),
+
       body: FirebaseAnimatedList(
         query: db_Ref,
         shrinkWrap: true,
@@ -78,15 +81,15 @@ class _HomePageState extends State<HomePage> {
                 child: ListTile(
                   shape: RoundedRectangleBorder(
                     side: const BorderSide(
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  tileColor: Colors.indigo[100],
+                  tileColor: AppColors.subColor,
                   trailing: IconButton(
                     icon: Icon(
                       Icons.add,
-                      color: Colors.blue[900],
+                      color: AppColors.mainColor,
                     ),
                     onPressed: () {
                       //_saveData(User['key']);
@@ -94,14 +97,15 @@ class _HomePageState extends State<HomePage> {
                   ),
                   title: Text(
                     User['name'],
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
                   ),
                   subtitle: Text(
                     'Dirección: ${User['direccion']}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),

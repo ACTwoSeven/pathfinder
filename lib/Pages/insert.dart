@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:pathfinder/Pages/RoutesPage.dart';
+import 'package:pathfinder/misc/colors.dart';
 
 class ccreate extends StatefulWidget {
   String Contact_Key;
@@ -32,7 +33,7 @@ class ccreateState extends State<ccreate> {
             fontSize: 30,
           ),
         ),
-        backgroundColor: Colors.indigo[900],
+        backgroundColor: AppColors.mainColor,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -77,7 +78,7 @@ class ccreateState extends State<ccreate> {
                   fontSize: 20,
                 ),
               ),
-              color: Colors.indigo[900],
+              color: AppColors.mainColor,
             ),
           ],
         ),

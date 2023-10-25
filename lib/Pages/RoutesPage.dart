@@ -4,6 +4,7 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:pathfinder/Pages/update.dart';
 
+import '../misc/colors.dart';
 import 'insert.dart';
 
 class RoutesPage extends StatefulWidget {
@@ -27,7 +28,7 @@ class _RoutesPageState extends State<RoutesPage> {
     FirebaseDatabase.instance.ref().child('User/${widget.Contact_Key}/rutas');
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.indigo[900],
+        backgroundColor: AppColors.mainColor,
         onPressed: () {
           Navigator.push(
             context,
@@ -38,7 +39,7 @@ class _RoutesPageState extends State<RoutesPage> {
             ),
           );
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
         ),
       ),
@@ -48,7 +49,7 @@ class _RoutesPageState extends State<RoutesPage> {
             onPressed: () {
               signUserOut();
             },
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
           ),
         ],
         title: const Text(
@@ -57,7 +58,7 @@ class _RoutesPageState extends State<RoutesPage> {
             fontSize: 30,
           ),
         ),
-        backgroundColor: Colors.indigo[900],
+        backgroundColor: AppColors.mainColor,
       ),
       body: FirebaseAnimatedList(
         query: db_Ref,
@@ -87,11 +88,11 @@ class _RoutesPageState extends State<RoutesPage> {
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  tileColor: Colors.indigo[100],
+                  tileColor: AppColors.subColor,
                   trailing: IconButton(
                     icon: Icon(
                       Icons.add,
-                      color: Colors.blue[900],
+                      color: AppColors.mainColor,
                     ),
                     onPressed: () {
                       //_saveData(User['key']);
@@ -99,13 +100,12 @@ class _RoutesPageState extends State<RoutesPage> {
                   ),
                   title: Text(
                     Rutas['name'],
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  subtitle: Text(
-                    'Última hora registrada: '+Rutas['hora'],
+                  subtitle: Text('Última hora registrada: '+Rutas['hora'],
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
